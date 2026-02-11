@@ -1,0 +1,175 @@
+:root {
+  font-family: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
+    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: pan-x pan-y;
+
+  /* 커피 테마 색상 */
+  --color-coffee-dark: #3E2723;
+  --color-coffee: #8B4513;
+  --color-coffee-light: #A0522D;
+  --color-cream: #F5E6D3;
+  --color-cream-light: #FFF8F0;
+  --color-milk: #FFFBF5;
+  --color-white: #ffffff;
+  --color-gray-100: #f5f5f5;
+  --color-gray-300: #e0e0e0;
+  --color-gray-500: #9e9e9e;
+  --color-gray-700: #616161;
+  --color-gray-900: #212121;
+  --color-success: #4caf50;
+  --color-error: #f44336;
+
+  /* 간격 */
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* 둥근 모서리 */
+  --rounded-sm: 8px;
+  --rounded-md: 12px;
+  --rounded-lg: 16px;
+  --rounded-xl: 24px;
+}
+
+html,
+body,
+#root {
+  width: 100vw;
+  height: 100dvh;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-milk) 100%);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--min-height, 100vh);
+  min-height: var(--min-height, 100vh);
+  padding-top: var(--top-padding, 0px);
+  padding-bottom: var(--bottom-padding, 0px);
+}
+
+.app-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  overflow-y: auto;
+}
+
+/* 시작 화면 */
+.start-screen {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-coffee-dark);
+  margin: 0;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: var(--color-gray-700);
+  margin: 0;
+  text-align: center;
+}
+
+/* 게임 화면 */
+.game-screen {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.game-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--color-coffee-dark);
+  margin: 0;
+  text-align: center;
+}
+
+.game-instruction {
+  font-size: 16px;
+  color: var(--color-gray-700);
+  margin: 0;
+  text-align: center;
+  padding: var(--spacing-lg);
+  background: var(--color-white);
+  border-radius: var(--rounded-lg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 버튼 스타일 */
+.start-button,
+.end-button {
+  width: 100%;
+  max-width: 300px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-white);
+  background: var(--color-coffee);
+  border: none;
+  border-radius: var(--rounded-lg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+}
+
+.start-button:hover:not(:disabled),
+.end-button:hover {
+  background: var(--color-coffee-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(139, 69, 19, 0.4);
+}
+
+.start-button:active:not(:disabled),
+.end-button:active {
+  transform: translateY(0);
+}
+
+.start-button:disabled {
+  background: var(--color-gray-300);
+  color: var(--color-gray-500);
+  cursor: not-allowed;
+  box-shadow: none;
+}
