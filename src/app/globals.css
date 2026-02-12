@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: #0064FF;
+    --background: #F2F4F6;
+    --card: #FFFFFF;
+    --foreground: #191f28;
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-[#F2F4F6] text-[#191f28] antialiased;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+}
+
+/* Touch targets min 44px, safe area for notched devices */
+@layer utilities {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .safe-area-pt {
+    padding-top: max(env(safe-area-inset-top), 0px);
+  }
+  .safe-area-pb {
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+  }
+}
