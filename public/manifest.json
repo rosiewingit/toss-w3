@@ -2,7 +2,7 @@
   "name": "냠 (Nyam)",
   "short_name": "냠",
   "description": "Don't write a blog post. Just show me the food and tell me how it tastes in 100 characters.",
-  "start_url": "/",
+  "start_url": "/toss-w3/",
   "display": "standalone",
   "background_color": "#F2F4F6",
   "theme_color": "#0064FF",

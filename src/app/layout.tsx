@@ -12,7 +12,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: '냠 (Nyam) - 맛 SNS',
   description: "Don't write a blog post. Just show me the food and tell me how it tastes in 100 characters.",
-  manifest: '/manifest.json',
+  manifest: '/toss-w3/manifest.json',
 };
 
 export default function RootLayout({

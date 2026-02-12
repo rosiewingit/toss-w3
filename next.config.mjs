@@ -2,6 +2,8 @@
 const nextConfig = {
   output: 'export',
   images: { unoptimized: true },
+  basePath: '/toss-w3',
+  assetPrefix: '/toss-w3/',
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
@@ -15,3 +17,4 @@ const nextConfig = {
 };
 
 export default nextConfig;
+
