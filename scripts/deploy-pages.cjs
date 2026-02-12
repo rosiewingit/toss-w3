@@ -57,3 +57,6 @@ execSync('git push -f origin main:pages', { cwd: deployDir });
 
 console.log('Deployed to branch "pages". Configure GitHub: Settings → Pages → Source: Deploy from branch → Branch: pages.');
 fs.rmSync(deployDir, { recursive: true, force: true });
+
+// Ensure .nojekyll so GitHub Pages serves _next directory
+fs.writeFileSync(path.join(deployDir, '.nojekyll'), '');
