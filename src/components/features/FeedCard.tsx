@@ -31,9 +31,11 @@ export function FeedCard({ post, className }: FeedCardProps) {
       </div>
       <div className="p-3">
         <p className="font-medium text-gray-900 line-clamp-1">{post.menuName}</p>
-        <p className="text-sm text-gray-500">
-          {post.city ?? (post.lat != null ? '위치 있음' : '')}
-        </p>
+        {post.placeName && (
+          <p className="mt-1 text-sm text-gray-500">
+            📍 {post.placeName}
+          </p>
+        )}
       </div>
     </Link>
   );

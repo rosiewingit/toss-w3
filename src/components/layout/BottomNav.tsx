@@ -2,15 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, MapPin, PlusCircle, Bookmark, User } from 'lucide-react';
+import { Home, PlusCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/feed', label: '홈', icon: Home },
-  { href: '/map', label: '지도', icon: MapPin },
   { href: '/upload', label: '업로드', icon: PlusCircle },
-  { href: '/profile/saved', label: '저장', icon: Bookmark },
-  { href: '/profile', label: '마이', icon: User },
 ] as const;
 
 export function BottomNav() {

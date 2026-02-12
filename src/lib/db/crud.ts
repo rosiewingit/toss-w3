@@ -8,18 +8,17 @@ function rowToPost(row: unknown[]): Post {
     menuName: row[2] as string,
     tasteReview: row[3] as string,
     rating: row[4] as Rating,
-    lat: (row[5] as number) ?? null,
-    lng: (row[6] as number) ?? null,
-    city: (row[7] as string) ?? null,
-    imageData: row[8] as string,
-    createdAt: row[9] as string,
+    placeName: (row[5] as string) ?? null,
+    imageData: row[6] as string,
+    createdAt: row[7] as string,
   };
 }
 
 export async function getAllPosts(): Promise<Post[]> {
   const db = await getDb();
   const result = db.exec(
-    'SELECT id, userId, menuName, tasteReview, rating, lat, lng, city, imageData, createdAt FROM posts ORDER BY createdAt DESC'
+    // city 컬럼을 장소 이름으로 재사용
+    'SELECT id, userId, menuName, tasteReview, rating, city as placeName, imageData, createdAt FROM posts ORDER BY createdAt DESC'
   );
   if (!result.length) return [];
   return result[0].values.map((row) => rowToPost(row));
@@ -28,7 +27,7 @@ export async function getAllPosts(): Promise<Post[]> {
 export async function getPostById(id: string): Promise<Post | null> {
   const db = await getDb();
   const stmt = db.prepare(
-    'SELECT id, userId, menuName, tasteReview, rating, lat, lng, city, imageData, createdAt FROM posts WHERE id = ?'
+    'SELECT id, userId, menuName, tasteReview, rating, city as placeName, imageData, createdAt FROM posts WHERE id = ?'
   );
   stmt.bind([id]);
   const row = stmt.step() ? stmt.get() : null;
@@ -40,9 +39,7 @@ export async function insertPost(insert: {
   menuName: string;
   tasteReview: string;
   rating: Rating;
-  lat: number | null;
-  lng: number | null;
-  city: string | null;
+  placeName: string | null;
   imageData: string;
 }): Promise<Post> {
   const db = await getDb();
@@ -50,17 +47,15 @@ export async function insertPost(insert: {
   const id = `post-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
   const createdAt = new Date().toISOString();
   db.run(
-    `INSERT INTO posts (id, userId, menuName, tasteReview, rating, lat, lng, city, imageData, createdAt)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    // city 컬럼에 placeName을 저장
+    `INSERT INTO posts (id, userId, menuName, tasteReview, rating, city, imageData, createdAt)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       id,
       userId,
       insert.menuName,
       insert.tasteReview,
       insert.rating,
-      insert.lat,
-      insert.lng,
-      insert.city,
       insert.imageData,
       createdAt,
     ]
@@ -135,7 +130,7 @@ export async function getMyPosts(): Promise<Post[]> {
   const db = await getDb();
   const userId = getDefaultUserId();
   const stmt = db.prepare(
-    'SELECT id, userId, menuName, tasteReview, rating, lat, lng, city, imageData, createdAt FROM posts WHERE userId = ? ORDER BY createdAt DESC'
+    'SELECT id, userId, menuName, tasteReview, rating, city as placeName, imageData, createdAt FROM posts WHERE userId = ? ORDER BY createdAt DESC'
   );
   stmt.bind([userId]);
   const rows: Post[] = [];
@@ -148,7 +143,7 @@ export async function getSavedPosts(): Promise<Post[]> {
   const db = await getDb();
   const userId = getDefaultUserId();
   const stmt = db.prepare(
-    `SELECT p.id, p.userId, p.menuName, p.tasteReview, p.rating, p.lat, p.lng, p.city, p.imageData, p.createdAt
+    `SELECT p.id, p.userId, p.menuName, p.tasteReview, p.rating, p.city as placeName, p.imageData, p.createdAt
      FROM posts p
      INNER JOIN saved_posts s ON p.id = s.postId
      WHERE s.userId = ?
@@ -161,19 +156,4 @@ export async function getSavedPosts(): Promise<Post[]> {
   return rows;
 }
 
-export async function getPostsWithLocation(): Promise<
-  Array<Pick<Post, 'id' | 'lat' | 'lng' | 'menuName' | 'city'>>
-> {
-  const db = await getDb();
-  const result = db.exec(
-    'SELECT id, lat, lng, menuName, city FROM posts WHERE lat IS NOT NULL AND lng IS NOT NULL'
-  );
-  if (!result.length) return [];
-  return result[0].values.map((row) => ({
-    id: row[0] as string,
-    lat: row[1] as number,
-    lng: row[2] as number,
-    menuName: row[3] as string,
-    city: row[4] as string | null,
-  }));
-}
+// 지도 기능은 제거했으므로 위치 기반 조회는 더 이상 사용하지 않는다.

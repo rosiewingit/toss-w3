@@ -6,9 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { useUploadStore } from '@/lib/store/useUploadStore';
 import { TasteReviewInput } from '@/components/shared/TasteReviewInput';
-// Dynamic import so sql.js (Node fs) is not pulled into server bundle
 import { compressImage, blobToDataUrl } from '@/lib/utils/image-compression';
-import { getExifFromFile } from '@/lib/utils/exif-helpers';
 import { cn } from '@/lib/utils';
 
 const RATINGS: { value: 'good' | 'best'; label: string; emoji: string }[] = [
@@ -24,15 +22,13 @@ export function UploadForm() {
     menuName,
     tasteReview,
     rating,
-    lat,
-    lng,
-    city,
+    placeName,
     isSubmitting,
     setImage,
     setMenuName,
     setTasteReview,
     setRating,
-    setLocation,
+    setPlaceName,
     setSubmitting,
     reset,
   } = useUploadStore();
@@ -45,16 +41,12 @@ export function UploadForm() {
         const blob = await compressImage(file);
         const dataUrl = await blobToDataUrl(blob);
         setImage(dataUrl);
-        const exif = await getExifFromFile(file);
-        if (exif.gps) {
-          setLocation(exif.gps.lat, exif.gps.lng, city ?? null);
-        }
       } catch {
         setImage(null);
       }
       e.target.value = '';
     },
-    [city, setImage, setLocation]
+    [setImage]
   );
 
   const handleSubmit = useCallback(
@@ -68,9 +60,7 @@ export function UploadForm() {
           menuName: menuName.trim(),
           tasteReview: tasteReview.trim(),
           rating,
-          lat,
-          lng,
-          city,
+          placeName: placeName.trim() || null,
           imageData: imageDataUrl,
         });
         reset();
@@ -84,9 +74,7 @@ export function UploadForm() {
       menuName,
       tasteReview,
       rating,
-      lat,
-      lng,
-      city,
+      placeName,
       reset,
       router,
       setSubmitting,
@@ -168,6 +156,20 @@ export function UploadForm() {
         </div>
 
         <div>
+          <label className="mb-2 block text-sm font-medium text-gray-700">
+            장소 (선택)
+          </label>
+          <input
+            type="text"
+            value={placeName}
+            onChange={(e) => setPlaceName(e.target.value)}
+            placeholder="예: 서울 합정, 부산 서면"
+            maxLength={50}
+            className="min-h-[44px] w-full rounded-xl border border-gray-200 px-4 py-2 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+          />
+        </div>
+
+        <div>
           <span className="mb-2 block text-sm font-medium text-gray-700">
             평점
           </span>
@@ -190,12 +192,6 @@ export function UploadForm() {
             ))}
           </div>
         </div>
-
-        {lat != null && lng != null && (
-          <p className="text-sm text-gray-500">
-            위치: {city ?? `${lat.toFixed(4)}, ${lng.toFixed(4)}`}
-          </p>
-        )}
 
         <button
           type="submit"

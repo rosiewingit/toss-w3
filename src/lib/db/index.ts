@@ -10,6 +10,5 @@ export {
   toggleSaved,
   getMyPosts,
   getSavedPosts,
-  getPostsWithLocation,
 } from './crud';
 export { getDb, getDefaultUserId, persistDb } from './client';

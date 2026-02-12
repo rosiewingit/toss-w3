@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { MapPin, Bookmark, ChefHat } from 'lucide-react';
+import { Bookmark, ChefHat } from 'lucide-react';
 import { FeedCard } from '@/components/features/FeedCard';
 import { FeedSkeleton } from '@/components/features/FeedSkeleton';
 import { useEffect, useState } from 'react';
@@ -24,13 +24,6 @@ export function ProfileClient() {
       <section className="mb-6">
         <h2 className="mb-3 text-sm font-medium text-gray-500">메뉴</h2>
         <div className="flex flex-wrap gap-3">
-          <Link
-            href="/map"
-            className="touch-target flex min-h-[44px] items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-gray-700 active:scale-95"
-          >
-            <MapPin className="h-5 w-5 text-primary" />
-            My Map
-          </Link>
           <Link
             href="/profile/saved"
             className="touch-target flex min-h-[44px] items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-gray-700 active:scale-95"

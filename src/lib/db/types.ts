@@ -11,9 +11,11 @@ export interface Post {
   menuName: string;
   tasteReview: string;
   rating: Rating;
-  lat: number | null;
-  lng: number | null;
-  city: string | null;
+  /**
+   * 사용자가 입력한 장소 이름(예: '서울 합정', '부산 서면').
+   * 기존 DB의 city 컬럼을 재사용한다.
+   */
+  placeName: string | null;
   imageData: string; // base64 data URL
   createdAt: string;
   userId: string;

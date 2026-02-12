@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { ArrowLeft, Bookmark } from 'lucide-react';
 import { getPostById, toggleSaved, getSavedPostIds, getDefaultUserId } from '@/lib/db';
 import type { Post } from '@/lib/db';
-import { MapView } from '@/components/features/MapView';
 import { cn } from '@/lib/utils';
 
 export default function DetailContent() {
@@ -111,27 +110,8 @@ export default function DetailContent() {
           <p className="mt-2 text-sm text-gray-500">
             {post.rating === 'best' ? '🤯 Best' : '😋 Good'}
           </p>
-          {(post.city || (post.lat != null && post.lng != null)) && (
-            <p className="mt-2 text-sm text-gray-500">
-              위치: {post.city ?? `${post.lat?.toFixed(4)}, ${post.lng?.toFixed(4)}`}
-            </p>
-          )}
-          {post.lat != null && post.lng != null && (
-            <div className="mt-4">
-              <MapView
-                pins={[
-                  {
-                    id: post.id,
-                    lat: post.lat,
-                    lng: post.lng,
-                    menuName: post.menuName,
-                    city: post.city,
-                  },
-                ]}
-                single
-                className="h-48 w-full rounded-xl"
-              />
-            </div>
+          {post.placeName && (
+            <p className="mt-2 text-sm text-gray-500">📍 {post.placeName}</p>
           )}
         </div>
       </div>

@@ -5,15 +5,13 @@ export interface UploadState {
   menuName: string;
   tasteReview: string;
   rating: 'good' | 'best';
-  lat: number | null;
-  lng: number | null;
-  city: string | null;
+  placeName: string;
   isSubmitting: boolean;
   setImage: (dataUrl: string | null) => void;
   setMenuName: (v: string) => void;
   setTasteReview: (v: string) => void;
   setRating: (v: 'good' | 'best') => void;
-  setLocation: (lat: number | null, lng: number | null, city: string | null) => void;
+  setPlaceName: (v: string) => void;
   setSubmitting: (v: boolean) => void;
   reset: () => void;
 }
@@ -23,9 +21,7 @@ const initialState = {
   menuName: '',
   tasteReview: '',
   rating: 'good' as const,
-  lat: null as number | null,
-  lng: null as number | null,
-  city: null as string | null,
+  placeName: '',
   isSubmitting: false,
 };
 
@@ -36,7 +32,7 @@ export const useUploadStore = create<UploadState>((set) => ({
   setTasteReview: (tasteReview) =>
     set({ tasteReview: tasteReview.slice(0, 100) }),
   setRating: (rating) => set({ rating }),
-  setLocation: (lat, lng, city) => set({ lat, lng, city }),
+  setPlaceName: (placeName) => set({ placeName }),
   setSubmitting: (isSubmitting) => set({ isSubmitting }),
   reset: () => set(initialState),
 }));
